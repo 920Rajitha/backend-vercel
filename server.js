@@ -1,14 +1,16 @@
 import express from 'express';
-import nodemailer from 'nodemailer';
 import cors from 'cors';
+import nodemailer from 'nodemailer';
 import dotenv from 'dotenv';
 
 dotenv.config();
 const app = express();
 
-// ✅ Use CORS
+// ✅ FIX: Add CORS config to allow frontend origins
 app.use(cors({
-  origin: '*', // Allow all origins (or replace with your domain)
+  origin: ['http://localhost:5173', 'https://rajitha.site'], // allow dev + live
+  methods: ['GET', 'POST'],
+  credentials: true
 }));
 
 app.use(express.json());
@@ -35,13 +37,12 @@ app.post('/api/contact', async (req, res) => {
     await transporter.sendMail(mailOptions);
     res.status(200).json({ success: true, message: 'Message sent!' });
   } catch (error) {
-    console.error('Error sending email:', error);
+    console.error('❌ Error sending email:', error);
     res.status(500).json({ success: false, message: 'Something went wrong.' });
   }
 });
 
-// ✅ Listen on Railway or Render ports
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 8080;
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`✅ Server running on http://0.0.0.0:${PORT}`);
 });
