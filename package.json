@@ -1,5 +1,5 @@
 {
-  "name": "vercel-serverless-backend",
+  "name": "backend-vercel",
   "version": "1.0.0",
   "type": "module",
   "scripts": {
